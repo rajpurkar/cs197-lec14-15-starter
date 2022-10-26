@@ -7,6 +7,7 @@ import torch.optim as optim
 from torchvision import datasets, transforms
 from torch.optim.lr_scheduler import StepLR
 import time
+import wandb
 
 
 class Net(nn.Module):
@@ -67,6 +68,8 @@ def test(model, test_loader):
     print('\nTest set: Average loss: {:.4f}, Accuracy: {}/{} ({:.0f}%)\n'.format(
         test_loss, correct, len(test_loader.dataset),
         100. * correct / len(test_loader.dataset)))
+    test_acc = 100. * correct / len(test_loader.dataset)
+    return test_loss, test_acc
 
 
 def main():
@@ -115,13 +118,15 @@ def main():
     optimizer = optim.Adadelta(model.parameters(), lr=args.lr)
 
     scheduler = StepLR(optimizer, step_size=1, gamma=args.gamma)
+    wandb.init(config={"train_args": train_kwargs, "test_args": test_kwargs})
     for epoch in range(1, args.epochs + 1):
         t0 = time.time()
         train(args, model, train_loader, optimizer, epoch)
         t_diff = time.time() - t0
         print(f"Elapsed time is {t_diff}")
-        test(model, test_loader)
+        test_loss, test_acc = test(model, test_loader)
         scheduler.step()
+        wandb.log({"test_loss": test_loss, "test_acc": test_acc, "time_taken": t_diff}, step=epoch)
 
     if args.save_model:
         torch.save(model.state_dict(), "mnist_cnn.pt")
