@@ -7,6 +7,8 @@ import torch.optim as optim
 from torchvision import datasets, transforms
 from torch.optim.lr_scheduler import StepLR
 
+import time
+import wandb
 
 class Net(nn.Module):
     def __init__(self):
@@ -49,6 +51,8 @@ def train(args, model, device, train_loader, optimizer, epoch):
                 100. * batch_idx / len(train_loader), loss.item()))
             if args.dry_run:
                 break
+        metrics = {"train/train_loss": loss,}
+        wandb.log(metrics)
 
 
 def test(model, device, test_loader):
@@ -69,6 +73,10 @@ def test(model, device, test_loader):
         test_loss, correct, len(test_loader.dataset),
         100. * correct / len(test_loader.dataset)))
 
+    # log time
+
+    test_metrics = {"test/test_loss": test_loss, "test/test_acc": correct / len(test_loader.dataset)}
+    wandb.log(test_metrics)
 
 def main():
     # Training settings
@@ -132,10 +140,25 @@ def main():
     optimizer = optim.Adadelta(model.parameters(), lr=args.lr)
 
     scheduler = StepLR(optimizer, step_size=1, gamma=args.gamma)
+
+    
+
     for epoch in range(1, args.epochs + 1):
+        wandb.init(
+            project="pytorch-mnist",
+            config=args,
+        )
+
+        t0 = time.time()
         train(args, model, device, train_loader, optimizer, epoch)
+        t_diff = time.time() - t0
+        time_metrics = {"train/epoch_time": t_diff}
+        wandb.log(time_metrics)
+
         test(model, device, test_loader)
         scheduler.step()
+
+        wandb.finish()
 
     if args.save_model:
         torch.save(model.state_dict(), "mnist_cnn.pt")

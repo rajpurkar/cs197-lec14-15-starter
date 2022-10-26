@@ -1,0 +1,31 @@
+Train Epoch: 2 [0/60000 (0%)]	Loss: nan
+Train Epoch: 2 [640/60000 (1%)]	Loss: nan
+Train Epoch: 2 [1280/60000 (2%)]	Loss: nan
+Train Epoch: 2 [1920/60000 (3%)]	Loss: nan
+Train Epoch: 2 [2560/60000 (4%)]	Loss: nan
+Train Epoch: 2 [3200/60000 (5%)]	Loss: nan
+Train Epoch: 2 [3840/60000 (6%)]	Loss: nan
+Train Epoch: 2 [4480/60000 (7%)]	Loss: nan
+Train Epoch: 2 [5120/60000 (9%)]	Loss: nan
+Train Epoch: 2 [5760/60000 (10%)]	Loss: nan
+Train Epoch: 2 [6400/60000 (11%)]	Loss: nan
+Train Epoch: 2 [7040/60000 (12%)]	Loss: nan
+Train Epoch: 2 [7680/60000 (13%)]	Loss: nan
+Train Epoch: 2 [8320/60000 (14%)]	Loss: nan
+Train Epoch: 2 [8960/60000 (15%)]	Loss: nan
+Train Epoch: 2 [9600/60000 (16%)]	Loss: nan
+Train Epoch: 2 [10240/60000 (17%)]	Loss: nan
+Train Epoch: 2 [10880/60000 (18%)]	Loss: nan
+Train Epoch: 2 [11520/60000 (19%)]	Loss: nan
+Train Epoch: 2 [12160/60000 (20%)]	Loss: nan
+Train Epoch: 2 [12800/60000 (21%)]	Loss: nan
+Traceback (most recent call last):
+  File "/Users/bkan/Documents/CS 197/cs197-lec16-starter/main_sol.py", line 168, in <module>
+    main()
+  File "/Users/bkan/Documents/CS 197/cs197-lec16-starter/main_sol.py", line 153, in main
+    train(args, model, device, train_loader, optimizer, epoch)
+  File "/Users/bkan/Documents/CS 197/cs197-lec16-starter/main_sol.py", line 45, in train
+    loss = F.nll_loss(output, target)
+  File "/Users/bkan/opt/anaconda3/envs/lec8/lib/python3.10/site-packages/torch/nn/functional.py", line 2697, in nll_loss
+    return torch._C._nn.nll_loss_nd(input, target, weight, _Reduction.get_enum(reduction), ignore_index)
+KeyboardInterrupt
