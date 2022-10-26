@@ -7,7 +7,7 @@ import torch.optim as optim
 from torchvision import datasets, transforms
 from torch.optim.lr_scheduler import StepLR
 import time
-
+import wandb
 
 class Net(nn.Module):
     def __init__(self):
@@ -67,9 +67,13 @@ def test(model, test_loader):
     print('\nTest set: Average loss: {:.4f}, Accuracy: {}/{} ({:.0f}%)\n'.format(
         test_loss, correct, len(test_loader.dataset),
         100. * correct / len(test_loader.dataset)))
+    
+    return test_loss, correct
+    
 
 
 def main():
+    
     # Training settings
     parser = argparse.ArgumentParser(description='PyTorch MNIST Example')
     parser.add_argument('--batch-size', type=int, default=64, metavar='N',
@@ -99,6 +103,8 @@ def main():
 
     train_kwargs = {'batch_size': args.batch_size}
     test_kwargs = {'batch_size': args.test_batch_size}
+    
+    wandb.init(project="cs197-lec16", config=test_kwargs)
 
     transform=transforms.Compose([
         transforms.ToTensor(),
@@ -120,8 +126,11 @@ def main():
         train(args, model, train_loader, optimizer, epoch)
         t_diff = time.time() - t0
         print(f"Elapsed time is {t_diff}")
-        test(model, test_loader)
+        test_loss, correct = test(model, test_loader)
         scheduler.step()
+        
+        wandb.log({"test loss": test_loss, "test accuracy": correct, "epoch time": t_diff})
+    wandb.finish()
 
     if args.save_model:
         torch.save(model.state_dict(), "mnist_cnn.pt")
