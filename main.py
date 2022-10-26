@@ -6,6 +6,7 @@ import torch.nn.functional as F
 import torch.optim as optim
 from torchvision import datasets, transforms
 from torch.optim.lr_scheduler import StepLR
+import time
 
 
 class Net(nn.Module):
@@ -115,7 +116,10 @@ def main():
 
     scheduler = StepLR(optimizer, step_size=1, gamma=args.gamma)
     for epoch in range(1, args.epochs + 1):
+        t0 = time.time()
         train(args, model, train_loader, optimizer, epoch)
+        t_diff = time.time() - t0
+        print(f"Elapsed time is {t_diff}")
         test(model, test_loader)
         scheduler.step()
 
