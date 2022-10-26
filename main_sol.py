@@ -6,6 +6,8 @@ import torch.nn.functional as F
 import torch.optim as optim
 from torchvision import datasets, transforms
 from torch.optim.lr_scheduler import StepLR
+import time
+import wandb
 
 
 class Net(nn.Module):
@@ -59,8 +61,10 @@ def test(model, device, test_loader):
         for data, target in test_loader:
             data, target = data.to(device), target.to(device)
             output = model(data)
-            test_loss += F.nll_loss(output, target, reduction='sum').item()  # sum up batch loss
-            pred = output.argmax(dim=1, keepdim=True)  # get the index of the max log-probability
+            # sum up batch loss
+            test_loss += F.nll_loss(output, target, reduction='sum').item()
+            # get the index of the max log-probability
+            pred = output.argmax(dim=1, keepdim=True)
             correct += pred.eq(target.view_as(pred)).sum().item()
 
     test_loss /= len(test_loader.dataset)
@@ -68,6 +72,8 @@ def test(model, device, test_loader):
     print('\nTest set: Average loss: {:.4f}, Accuracy: {}/{} ({:.0f}%)\n'.format(
         test_loss, correct, len(test_loader.dataset),
         100. * correct / len(test_loader.dataset)))
+
+    return test_loss, correct / len(test_loader.dataset) * 100
 
 
 def main():
@@ -117,25 +123,36 @@ def main():
         train_kwargs.update(cuda_kwargs)
         test_kwargs.update(cuda_kwargs)
 
-    transform=transforms.Compose([
+    transform = transforms.Compose([
         transforms.ToTensor(),
         transforms.Normalize((0.1307,), (0.3081,))
-        ])
+    ])
     dataset1 = datasets.MNIST('../data', train=True, download=True,
-                       transform=transform)
+                              transform=transform)
     dataset2 = datasets.MNIST('../data', train=False,
-                       transform=transform)
-    train_loader = torch.utils.data.DataLoader(dataset1,**train_kwargs)
+                              transform=transform)
+    train_loader = torch.utils.data.DataLoader(dataset1, **train_kwargs)
     test_loader = torch.utils.data.DataLoader(dataset2, **test_kwargs)
 
     model = Net().to(device)
     optimizer = optim.Adadelta(model.parameters(), lr=args.lr)
 
+    config_dict = {
+        "train_args": train_kwargs, "test_args": test_kwargs
+    }
+    wandb.init(project="cs197_lec16", config=config_dict)
+
     scheduler = StepLR(optimizer, step_size=1, gamma=args.gamma)
     for epoch in range(1, args.epochs + 1):
+        t0 = time.time()
         train(args, model, device, train_loader, optimizer, epoch)
-        test(model, device, test_loader)
+        t_diff = time.time() - t0
+        test_loss, test_acc = test(model, device, test_loader)
+        wandb.log(
+            {"train_time": t_diff, "test_loss": test_loss, "test_acc": test_acc})
         scheduler.step()
+
+    wandb.finish()
 
     if args.save_model:
         torch.save(model.state_dict(), "mnist_cnn.pt")
