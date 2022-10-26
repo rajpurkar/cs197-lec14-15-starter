@@ -138,9 +138,7 @@ def main():
     optimizer = optim.Adadelta(model.parameters(), lr=args.lr)
 
     config_dict = {
-        "epochs": args.epochs,
-        "batch_size": args.batch_size,
-        "lr": args.lr,
+        "train_args": train_kwargs, "test_args": test_kwargs
     }
     wandb.init(project="cs197_lec16", config=config_dict)
 
