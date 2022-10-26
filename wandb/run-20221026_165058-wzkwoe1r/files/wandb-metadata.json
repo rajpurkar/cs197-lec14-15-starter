@@ -1,0 +1,16 @@
+{
+    "os": "macOS-13.0-x86_64-i386-64bit",
+    "python": "3.10.6",
+    "heartbeatAt": "2022-10-26T20:51:02.621190",
+    "startedAt": "2022-10-26T20:50:58.934524",
+    "docker": null,
+    "cpu_count": 8,
+    "cuda": null,
+    "args": [],
+    "state": "running",
+    "program": "/Users/bkan/Documents/CS 197/cs197-lec16-starter/main_sol.py",
+    "codePath": "main_sol.py",
+    "host": "dhcp-10-250-134-187.harvard.edu",
+    "username": "bkan",
+    "executable": "/Users/bkan/opt/anaconda3/envs/lec8/bin/python"
+}

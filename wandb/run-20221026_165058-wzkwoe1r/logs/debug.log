@@ -1,0 +1,25 @@
+2022-10-26 16:50:58,938 INFO    MainThread:18329 [wandb_setup.py:_flush():68] Configure stats pid to 18329
+2022-10-26 16:50:58,938 INFO    MainThread:18329 [wandb_setup.py:_flush():68] Loading settings from /Users/bkan/.config/wandb/settings
+2022-10-26 16:50:58,938 INFO    MainThread:18329 [wandb_setup.py:_flush():68] Loading settings from /Users/bkan/Documents/CS 197/cs197-lec16-starter/wandb/settings
+2022-10-26 16:50:58,938 INFO    MainThread:18329 [wandb_setup.py:_flush():68] Loading settings from environment variables: {'_require_service': 'True'}
+2022-10-26 16:50:58,938 INFO    MainThread:18329 [wandb_setup.py:_flush():68] Inferring run settings from compute environment: {'program_relpath': 'main_sol.py', 'program': '/Users/bkan/Documents/CS 197/cs197-lec16-starter/main_sol.py'}
+2022-10-26 16:50:58,938 INFO    MainThread:18329 [wandb_init.py:_log_setup():476] Logging user logs to /Users/bkan/Documents/CS 197/cs197-lec16-starter/wandb/run-20221026_165058-wzkwoe1r/logs/debug.log
+2022-10-26 16:50:58,938 INFO    MainThread:18329 [wandb_init.py:_log_setup():477] Logging internal logs to /Users/bkan/Documents/CS 197/cs197-lec16-starter/wandb/run-20221026_165058-wzkwoe1r/logs/debug-internal.log
+2022-10-26 16:50:58,939 INFO    MainThread:18329 [wandb_init.py:init():516] calling init triggers
+2022-10-26 16:50:58,939 INFO    MainThread:18329 [wandb_init.py:init():519] wandb.init called with sweep_config: {}
+config: {'batch_size': 64, 'test_batch_size': 1000, 'epochs': 14, 'lr': 1.0, 'gamma': 0.7, 'no_cuda': False, 'no_mps': False, 'dry_run': False, 'seed': 1, 'log_interval': 10, 'save_model': False}
+2022-10-26 16:50:58,939 INFO    MainThread:18329 [wandb_init.py:init():569] starting backend
+2022-10-26 16:50:58,939 INFO    MainThread:18329 [wandb_init.py:init():573] setting up manager
+2022-10-26 16:50:58,941 INFO    MainThread:18329 [backend.py:_multiprocessing_setup():102] multiprocessing start_methods=spawn,fork,forkserver, using: spawn
+2022-10-26 16:50:58,943 INFO    MainThread:18329 [wandb_init.py:init():580] backend started and connected
+2022-10-26 16:50:58,960 INFO    MainThread:18329 [wandb_init.py:init():658] updated telemetry
+2022-10-26 16:50:58,961 INFO    MainThread:18329 [wandb_init.py:init():692] communicating run to backend with 30 second timeout
+2022-10-26 16:51:02,100 INFO    MainThread:18329 [wandb_run.py:_on_init():1974] communicating current version
+2022-10-26 16:51:02,605 INFO    MainThread:18329 [wandb_run.py:_on_init():1978] got version response upgrade_message: "wandb version 0.13.4 is available!  To upgrade, please run:\n $ pip install wandb --upgrade"
+
+2022-10-26 16:51:02,605 INFO    MainThread:18329 [wandb_init.py:init():727] starting run threads in backend
+2022-10-26 16:51:04,925 INFO    MainThread:18329 [wandb_run.py:_console_start():1954] atexit reg
+2022-10-26 16:51:04,925 INFO    MainThread:18329 [wandb_run.py:_redirect():1812] redirect: SettingsConsole.WRAP_RAW
+2022-10-26 16:51:04,925 INFO    MainThread:18329 [wandb_run.py:_redirect():1877] Wrapping output streams.
+2022-10-26 16:51:04,925 INFO    MainThread:18329 [wandb_run.py:_redirect():1899] Redirects installed.
+2022-10-26 16:51:04,926 INFO    MainThread:18329 [wandb_init.py:init():764] run started, returning control to user process
